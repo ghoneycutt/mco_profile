@@ -34,7 +34,13 @@ class mco_profile::middleware::activemq (
     instance      => 'mcollective',
     server_config => template('mco_profile/activemq_template.erb'),
   }
-  contain 'activemq'
+
+# This causes a circular dependency
+#  Error: Could not apply complete catalog: Found 2 dependency cycles:
+#  (Class[Mco_profile::Middleware::Activemq] => Class[Mco_profile::Middleware::Activemq])
+#  (Class[Mco_profile::Middleware::Activemq] => Class[Mco_profile::Middleware::Activemq])
+#
+#  contain 'activemq'
 
   # Set up SSL configuration. Use copies of the PEM keys specified to create
   # the Java keystores.
